@@ -19,7 +19,8 @@ Built for the **CIP** course, this project bridges the gap between natural langu
 * **NLP & Speech:** `spaCy`, `SpeechRecognition`, `pyttsx3`
 * **Automation:** `pyautogui`, `webbrowser`, `os`
 * **Environment:** Optimized for Windows 10/11
-
+## Demo
+The user triggers the assistant via speech, which is then parsed by the spacy NLP engine to extract intent, and finally executed via pyautogui or browser automation.
 ## Installation & Setup
 
 1. **Clone the Repository:**
