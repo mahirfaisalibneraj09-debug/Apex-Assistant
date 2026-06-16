@@ -30,6 +30,7 @@ from pytube import Search
 import pyttsx3
 import logging
 logging.getLogger("pytube").setLevel(logging.CRITICAL)
+engine= pyttsx3.init()
 def main():
     ask_question("Hey, My name is Mahir... How can i help you?")
     print("Speak something....")
@@ -73,7 +74,6 @@ def opening_app(app):
                 return False
     return False
 def ask_question(text):
-    engine= pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
 def set_volume(sound):
@@ -151,7 +151,6 @@ def play_on_yt(r):
         video = s.results[i]
         print(f"{i+1}. {video.title}")
         i+=1
-    engine= pyttsx3.init()
     engine.say("which one will u prefer to play? ")
     engine.runAndWait()
     try:
