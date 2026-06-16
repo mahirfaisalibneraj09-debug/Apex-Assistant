@@ -88,26 +88,16 @@ def set_volume(sound):
             return -0.25
     return 0
 def speech():
-    # Initialize the recognizer
     r = sr.Recognizer()
-  # Falls back to system default if index query fails
+    sample_rate = 48000
+    duration = 5 
+    
+    # 1. Get Device Index
+    default_device = sd.default.device[0]
+    print(f"[Telemetry] Microphone initialized at index: {default_device}")
 
-    # Audio recording parameters
-    sample_rate = 48000  # Standard for speech recognition
-    duration = 5       # Record for 5 seconds
-
-    # Record audio from the default microphone
-    # sounddevice records as a numpy array; we convert it to bytes
-    # Change device=1 to match your Microphone ID
-    # Get the default input device information
-    try:
-        default_device = sd.default.device[0]  # Gets the default index
-    except Exception:
-        default_device = None  # Falls back to system default if index query fails
-        
-    print(f"Using microphone index: {default_device}")
-
-    # Record using the dynamic device index
+    # 2. Recording
+    print("[Telemetry] Recording...")
     audio_data = sd.rec(
         int(duration * sample_rate), 
         samplerate=sample_rate, 
@@ -115,20 +105,22 @@ def speech():
         dtype='int16', 
         device=default_device
     )
-    sd.wait() # Wait for recording to finish
+    sd.wait()
+    print("[Telemetry] Processing audio...")
 
-    # Convert numpy array to bytes compatible with speech_recognition
+    # 3. Processing
     audio_bytes = audio_data.tobytes()
-
-    # Create an AudioData object manually
-    audio = sr.AudioData(audio_bytes, sample_rate, 2) # 2 bytes per sample for int16
+    audio = sr.AudioData(audio_bytes, sample_rate, 2)
 
     try:
-        # Convert speech to text
-        text = r.recognize_google(audio)
-        return text
-    except (sr.RequestError, sr.UnknownValueError) as e:
-        return f"Caught either UnknownValueError or RequestError: {e}"
+        r.dynamic_energy_threshold = True
+        text_01 = r.recognize_google(audio)
+        print(f"[Input Detected]: {text_01}")
+        return text_01.lower() # Always return lowercase for easier command matching
+    except (sr.RequestError, sr.UnknownValueError):
+        print("[Telemetry] Audio intake failed. Switching to manual override.")
+        text_01 = input("Manual Input Required: ")
+        return text_01.lower()
         
 def command_to_search(m):
     words_to_remove = [ "open youtube and play", "play", "please", "please play"]
