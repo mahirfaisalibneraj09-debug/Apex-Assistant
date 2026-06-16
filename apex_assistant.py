@@ -55,7 +55,7 @@ def main():
                 print("what are u saying, man? we cant do it is already how you want it to be")
         except:
             print("wrong command")
-    elif "open" in command_01 and "youtube" not in command_01:
+    elif "open" in speech_01 and "youtube" not in speech_01:
         success=opening_app(speech_01)
         if not success:
             print("app not found")
