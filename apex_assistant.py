@@ -30,11 +30,8 @@ from pytube import Search
 import pyttsx3
 import logging
 logging.getLogger("pytube").setLevel(logging.CRITICAL)
-engine = pyttsx3.init()
-engine.say("Testing, one, two, three.")
-engine.runAndWait()
 def main():
-    ask_question()
+    ask_question("Hey, My name is Mahir... How can i help you?")
     print("Speak something....")
     speech_01=speech()
     if not speech_01:
@@ -75,9 +72,9 @@ def opening_app(app):
                 print(f"Error: Could not find the file for {app_name}")
                 return False
     return False
-def ask_question():
+def ask_question(text):
     engine= pyttsx3.init()
-    engine.say("Hey, My name is Mahir... How can i help you?")
+    engine.say(text)
     engine.runAndWait()
 def set_volume(sound):
     
