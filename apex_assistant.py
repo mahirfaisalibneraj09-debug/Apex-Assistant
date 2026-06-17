@@ -80,10 +80,10 @@ def set_volume(sound):
     
     sound_decrease=["decrease", "lower", "quieter", "down"]
     sound_increase= ["increase", "higher", "louder", "up"]
-    for word in sound_decrease:
+    for word in sound_increase:
         if word in sound:
             return 0.25
-    for word in sound_increase:
+    for word in sound_decrease:
         if word in sound:
             return -0.25
     return 0
